@@ -1,0 +1,15 @@
+[package]
+name = "telegram-organizer"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+grammers-client = "0.7.0"
+tokio = { version = "1.28", features = ["full"] }
+rusqlite = { version = "0.29.0", features = ["bundled", "chrono"] }
+ollama-rs = "0.2.5"
+log = "0.4"
+simple_logger = "1.16.0"
+chrono = { version = "0.4.39", features = ["serde"] }
+dotenv = "0.15.0"
+textwrap = "0.16.0" 

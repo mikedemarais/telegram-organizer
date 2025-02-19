@@ -1,0 +1,16 @@
+---
+description: 
+globs: 
+---
+---
+name: "Error Handling Patterns"
+globs:
+  - "**/*.rs"
+triggers:
+  - file_open
+---
+## Error Management
+- Use `Result<T, Box<dyn std::error::Error>>` as default error type
+- Handle Telegram API rate limits with exponential backoff
+- Log errors with context using `log::error!`
+- Maintain silent failure for non-critical errors (example: @file:src/scheduler.rs startLine:17 endLine:21)

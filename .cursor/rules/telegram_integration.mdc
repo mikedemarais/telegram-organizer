@@ -1,0 +1,17 @@
+---
+description: 
+globs: 
+---
+---
+name: "Telegram API Standards"
+globs:
+  - "src/telegram.rs"
+triggers:
+  - file_open
+  - file_save
+---
+## Telegram Implementation Rules
+- Use `InputPeer` and `GetHistory` API calls for silent monitoring
+- Handle PEER_ID_INVALID errors gracefully (see @file:src/telegram.rs startLine:160 endLine:172)
+- Implement 2-second delays between member info requests to avoid rate limits
+- Follow chat participant parsing pattern from @file:src/telegram.rs startLine:234 endLine:259

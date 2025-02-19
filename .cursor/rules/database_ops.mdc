@@ -1,0 +1,17 @@
+---
+description: 
+globs: 
+---
+---
+name: "SQLite Standards"
+globs:
+  - "src/database.rs"
+  - "src/scheduler.rs"
+triggers:
+  - file_open
+---
+## Database Guidelines
+- Wrap bulk inserts in transactions (example: @file:src/database.rs startLine:91 endLine:100)
+- Use UPSERT patterns for chat/member updates
+- Maintain message history schema from @file:.cursorrules (components.database.rs)
+- Follow duplicate detection logic from @file:src/scheduler.rs startLine:144 endLine:192

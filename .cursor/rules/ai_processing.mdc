@@ -1,0 +1,16 @@
+---
+description: 
+globs: 
+---
+---
+name: "Ollama Integration"
+globs:
+  - "src/ai.rs"
+triggers:
+  - file_open
+---
+## AI Analysis Requirements
+- Maintain 1000-message context window for analysis
+- Use consistent prompt format from @file:src/ai.rs startLine:20 endLine:31
+- Parse AI responses using the Category/Urgent/SuggestedName pattern
+- Handle message index mapping correctly (see @file:src/ai.rs startLine:64 endLine:75)

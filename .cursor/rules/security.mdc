@@ -1,0 +1,20 @@
+---
+description: 
+globs: 
+---
+---
+name: "Security Guidelines"
+globs:
+  - "**/*.rs"
+  - ".env"
+  - "README.md"
+triggers:
+  - file_open
+  - file_change
+---
+## Security Requirements
+- NEVER commit API credentials (TG_ID/TG_HASH) - keep in .env
+- All database operations must use transactions for data integrity
+- Maintain silent monitoring: No read receipts in Telegram API calls
+- Sensitive files (.env, *.session, *.db) must be excluded via .gitignore
+- Reference: @file .gitignore (lines 13,16,20)

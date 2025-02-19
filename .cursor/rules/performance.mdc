@@ -1,0 +1,18 @@
+---
+description: 
+globs: 
+---
+---
+name: "Performance Constraints"
+globs:
+  - "src/scheduler.rs"
+  - "src/ai.rs"
+triggers:
+  - file_open
+---
+## Performance Rules
+- Maintain 30-minute scheduler interval
+- Process messages in batches of 100 (Telegram API limit)
+- Keep AI context window at 1000 messages
+- Use transactions for bulk database operations
+- Reference: @file:.cursorrules (performance section)
