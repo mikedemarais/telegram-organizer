@@ -1,11 +1,43 @@
 use ollama_rs::{Ollama, generation::completion::request::GenerationRequest};
 use crate::telegram::MessageInfo;
-use log::debug;
+use log::{debug, error};
+use serde::{Deserialize, Serialize};
+use anyhow::Result;
 
 /// How many recent messages to include in AI prompt (for context).
 const CONTEXT_MSG_COUNT: usize = 1000;
 /// Default model to use for Ollama (can be overridden via OLLAMA_MODEL env var).
 const DEFAULT_MODEL: &str = "mistral-small:latest";
+/// Default embedding model to use (can be overridden via OLLAMA_EMBED_MODEL env var).
+const DEFAULT_EMBED_MODEL: &str = "bge-m3";
+
+#[derive(Debug, Serialize, Deserialize)]
+struct EmbeddingResponse {
+    embeddings: Vec<Vec<f32>>,
+}
+
+/// Generate an embedding vector for a given text using Ollama's BGE-M3 model.
+pub async fn generate_embedding(text: &str) -> Result<Vec<f32>> {
+    let model = std::env::var("OLLAMA_EMBED_MODEL").unwrap_or_else(|_| DEFAULT_EMBED_MODEL.to_string());
+    let ollama = Ollama::default();
+
+    // Prepare the embedding request
+    let request = serde_json::json!({
+        "model": model,
+        "input": text,
+    });
+
+    // Send request to Ollama's embedding endpoint
+    let response = ollama.raw_post("/api/embeddings", &request).await?;
+    let embedding_response: EmbeddingResponse = serde_json::from_str(&response)?;
+
+    // BGE-M3 returns a single embedding vector per input
+    if embedding_response.embeddings.is_empty() {
+        anyhow::bail!("No embedding returned from model");
+    }
+
+    Ok(embedding_response.embeddings[0].clone())
+}
 
 /// Analyze a chat's messages using a local LLM via Ollama.
 /// Returns (category, suggested_name, urgent_msg_ids).
